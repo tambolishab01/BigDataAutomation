@@ -1,0 +1,166 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccountName": {
+            "type": "string",
+            "defaultValue": "inddautbdtstr01"
+        },
+        "containerName": {
+            "type": "string",
+            "defaultValue": "logs",
+            "metadata": {
+                "description": "Specifies the name of the blob container."
+            }
+        },
+        "adlAnalyticsName": {
+            "type": "string",
+            "defaultValue": "inddautbdtdla01",
+            "metadata": {
+                "description": "The name of the Data Lake Analytics account to create."
+            }
+        },
+        "adlStoreName": {
+            "type": "string",
+            "defaultValue": "inddautbdtdls01",
+            "metadata": {
+                "description": "The name of the Data Lake Store account to create."
+            }
+        },
+        "location": {
+            "type": "string",
+            "allowedValues": [
+                "East US 2",
+                "East US",
+                "Central US",
+                "North Europe",
+                "West Europe"
+            ],
+            "defaultValue": "East US 2",
+            "metadata": {
+                "description": "The location in which the resources will be created."
+            }
+        },
+        "dataFactoryName": {
+            "type": "string",
+            "defaultValue": "inddautbdtadf01",
+            "metadata": {
+                "description": "Specifies the name of the blob container."
+        }
+        },
+        "dataFactoryLocation": {
+            "type": "string",
+            "defaultValue": "East US 2",
+			"allowedValues": [
+				"East US",
+				"East US 2",
+				"West Europe",
+				"Southeast Asia"
+			],
+			"metadata": {
+				"description": "Location of the data factory."
+			}
+		},
+		"onPremSqlServerConnectionString": {
+            "type": "string",
+            "defaultValue": "Server=mysqlvmlabel1.eastus.cloudapp.azure.com,1433;Database=testdb;Integrated Security=false;User ID=Azureadmin;Password=Welcome@12345",
+			"metadata": {
+				"description": "Connnection string for the on-premsies SQL Server database."
+			}
+		},
+		"sqlTableName": {
+            "type": "string",
+            "defaultValue": "dbo.emp",
+			"metadata": {
+				"description": "Name of the target table in the Azure SQL database."
+			}
+		},
+		"outputBlobFolder": {
+            "type": "string",
+            "defaultValue": "fromonpremsql",
+			"metadata": {
+				"description": "The folder in the blob container to which the data is copied."
+			}
+		}
+       
+    },
+    
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "name": "blobstoragetemplate",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://srcstorage01.blob.core.windows.net/sprint1/Shabnam/storageacnt.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[parameters('storageAccountName')]"
+                    },
+                    "containerName": {
+                        "value": "[parameters('containerName')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "name": "datalakelinkedTemplate1",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://srcstorage01.blob.core.windows.net/sprint1/Shabnam/datalakestore.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "adlAnalyticsName": {
+                        "value": "[parameters('adlAnalyticsName')]"
+                    },
+                    "adlStoreName": {
+                        "value": "[parameters('adlStoreName')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "adfTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://srcstorage01.blob.core.windows.net/sprint1/Shabnam/ADF.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "dataFactoryName": {
+                        "value": "[parameters('dataFactoryName')]"
+                    },
+                    "dataFactoryLocation":{
+                        "value":"[parameters('dataFactoryLocation')]"
+                    },
+                    "containerName": {
+                        "value": "[parameters('containerName')]"
+                    },
+                    "azureStorageConnectionString": {
+                        "value": "[reference('blobstoragetemplate').outputs.astrrid.value]"
+                    },
+                    "onPremSqlServerConnectionString": {
+                         "value": "[parameters('onPremSqlServerConnectionString')]"
+
+                    },
+                    "sqlTableName": {
+                        "value": "[parameters('sqlTableName')]"
+                    },
+                    "outputBlobFolder": {
+                        "value":"[parameters('outputBlobFolder')]"
+                    }
+                }
+            }
+        }       
+    ]
+}
