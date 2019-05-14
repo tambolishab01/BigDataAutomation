@@ -25,16 +25,11 @@
     - name: Fetch service principal key from shared Key Vault
       shell: >
         echo $(az keyvault secret show --name spkey --vault-name "{{ var_SharedKeyVault }}" --query value --output tsv)
-      register: var_spkey
+      register: var_spkey.stdout
       until: var_spkey.rc == 0
       retries: 3
       delay: 10
       ignore_errors: yes
-    - name: getkeys
-      spkey:  "{{ ansible_env.spkey }}"
-      servicePrincipalId: "{{ ansible_env.servicePrincipalId }}"
-      hostSubscriptionId: "{{ ansible_env.hostSubscriptionId }}"
-      tenant: "{{ ansible_env.tenant }}"
     - name: Deploy ARM template
       
       azure_rm_deployment:
