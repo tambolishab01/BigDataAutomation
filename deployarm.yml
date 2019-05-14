@@ -3,21 +3,20 @@
   connection: local
   gather_facts: false
   vars:
-      storageAccountName: "{{ ansible_env.storageAccountName }}"
-      containerName: "{{ ansible_env.containerName }}"
-      adlAnalyticsName: "{{ ansible_env.adlAnalyticsName }}"
-      adlStoreName: "{{ ansible_env.adlStoreName }}"
-      location: "{{ ansible_env.location }}"
-      dataFactoryName: "{{ ansible_env.dataFactoryName }}"
-      dataFactoryLocation: "{{ ansible_env.dataFactoryLocation }}"
-      onPremSqlServerConnectionString: "{{ ansible_env.onPremSqlServerConnectionString }}"
-      sqlTableName: "{{ ansible_env.sqlTableName }}"
-      outputBlobFolder: "{{ ansible_env.outputBlobFolder }}"
-      resourcesgpname: "{{ ansible_env.resourcesgpname }}"
-      spkey: "{{ ansible_env.spkey }}"
-      servicePrincipalId: "{{ ansible_env.servicePrincipalId }}"
-      hostSubscriptionId: "{{ ansible_env.hostSubscriptionId }}"
-      tenant: "{{ ansible_env.tenant }}"
+      storageAccountName: "alankarstr01"
+      containerName: "alankarctr01"
+      adlAnalyticsName: "alankardla01"
+      adlStoreName: "alankardls01"
+      location: "eastus2"
+      dataFactoryName: "alankaradf01"
+      onPremSqlServerConnectionString: "Server=mysqlvmlabel1.eastus.cloudapp.azure.com,1433;Database=testdb;Integrated Security=false;User ID=Azureadmin;Password=Welcome@12345"
+      sqlTableName: "dbo.emp"
+      outputBlobFolder: "fromonpremsql"
+      resourcesgpname: "alankar010101"
+      spkey: "J76B/wvOWWMnLGniHCfAh4AttMVmur8x5J0RRY678SA="
+      servicePrincipalId: "3ab325b4-fd99-4a72-b770-12c8c766d4a4"
+      hostSubscriptionId: "07494aa9-3134-4cdd-9e14-e0d21257696c"
+      tenant: "c160a942-c869-429f-8a96-f8c8296d57db"
       var_SharedKeyVault: 'alankv321'
       templateLink: 'https://raw.githubusercontent.com/alankarmehta/BigDataAutomation/master/Main_Template1.json'
   tasks:
