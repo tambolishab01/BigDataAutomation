@@ -52,4 +52,4 @@
             value: "{{ sqlTableName }}"
           outputBlobFolder: 
             value: "{{ outputBlobFolder }}"
-          template_link: '{{ templateLink }}'
+        template_link: '{{ templateLink }}'
