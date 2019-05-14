@@ -21,15 +21,6 @@
       var_SharedKeyVault: 'alankv321'
       templateLink: 'https://raw.githubusercontent.com/alankarmehta/BigDataAutomation/master/Main_Template1.json'
   tasks:
-
-    - name: Fetch service principal key from shared Key Vault
-      shell: >
-        echo $(az keyvault secret show --name spkey --vault-name "{{ var_SharedKeyVault }}" --query value --output tsv)
-      register: var_spkey.stdout
-      until: var_spkey.rc == 0
-      retries: 3
-      delay: 10
-      ignore_errors: yes
     - name: Deploy ARM template
       
       azure_rm_deployment:
