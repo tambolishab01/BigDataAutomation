@@ -1,0 +1,69 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+      storageAccountName: "{{ ansible_env.storageAccountName }}"
+      containerName: "{{ ansible_env.containerName }}"
+      adlAnalyticsName: "{{ ansible_env.adlAnalyticsName }}"
+      adlStoreName: "{{ ansible_env.adlStoreName }}"
+      location: "{{ ansible_env.location }}"
+      dataFactoryName: "{{ ansible_env.dataFactoryName }}"
+      dataFactoryLocation: "{{ ansible_env.dataFactoryLocation }}"
+      onPremSqlServerConnectionString: "{{ ansible_env.onPremSqlServerConnectionString }}"
+      sqlTableName: "{{ ansible_env.sqlTableName }}"
+      outputBlobFolder: "{{ ansible_env.outputBlobFolder }}"
+      resourcesgpname: "{{ ansible_env.resourcesgpname }}"
+      spkey: "{{ ansible_env.spkey }}"
+      servicePrincipalId: "{{ ansible_env.servicePrincipalId }}"
+      hostSubscriptionId: "{{ ansible_env.hostSubscriptionId }}"
+      tenant: "{{ ansible_env.tenant }}"
+      var_SharedKeyVault: 'alankv321'
+      templateLink: 'https://raw.githubusercontent.com/alankarmehta/BigDataAutomation/master/Main_Template1.json'
+  tasks:
+
+    - name: Fetch service principal key from shared Key Vault
+      shell: >
+        echo $(az keyvault secret show --name spkey --vault-name "{{ var_SharedKeyVault }}" --query value --output tsv)
+      register: var_spkey
+      until: var_spkey.rc == 0
+      retries: 3
+      delay: 10
+      ignore_errors: yes
+    - name: getkeys
+      spkey:  "{{ ansible_env.spkey }}"
+      servicePrincipalId: "{{ ansible_env.servicePrincipalId }}"
+      hostSubscriptionId: "{{ ansible_env.hostSubscriptionId }}"
+      tenant: "{{ ansible_env.tenant }}"
+    - name: Deploy ARM template
+      
+      azure_rm_deployment:
+        subscription_id: "{{ hostSubscriptionId }}"
+        client_id: "{{ servicePrincipalId }}"
+        tenant: "{{ tenant }}"
+        secret: "{{ spkey }}"
+        resource_group_name: "{{ resourcesgpname }}"
+        location: "{{ ansible_env.location }}"
+        state: present
+        parameters:
+          storageAccountName: 
+            value: "{{ var_storageAccountName }}"
+          containerName: 
+            value: "{{ containerName }}"
+          adlAnalyticsName: 
+            value: "{{ adlAnalyticsName }}"
+          adlStoreName: 
+            value: "{{ adlStoreName }}"
+          location: 
+            value: "{{ location }}"
+          dataFactoryName: 
+            value: "{{ dataFactoryName }}"
+          dataFactoryLocation: 
+            value: "{{ dataFactoryLocation }}"
+          onPremSqlServerConnectionString: 
+            value: "{{ onPremSqlServerConnectionString }}"
+          sqlTableName: 
+            value: "{{ sqlTableName }}"
+          outputBlobFolder: 
+            value: "{{ outputBlobFolder }}"
+          template_link: '{{ templateLink }}'
