@@ -38,12 +38,8 @@
             value: "{{ adlAnalyticsName }}"
           adlStoreName: 
             value: "{{ adlStoreName }}"
-          location: 
-            value: "{{ location }}"
           dataFactoryName: 
             value: "{{ dataFactoryName }}"
-          dataFactoryLocation: 
-            value: "{{ dataFactoryLocation }}"
           onPremSqlServerConnectionString: 
             value: "{{ onPremSqlServerConnectionString }}"
           sqlTableName: 
