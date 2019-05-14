@@ -27,20 +27,6 @@
                 "description": "The name of the Data Lake Store account to create."
             }
         },
-        "location": {
-            "type": "string",
-            "allowedValues": [
-                "East US 2",
-                "East US",
-                "Central US",
-                "North Europe",
-                "West Europe"
-            ],
-            "defaultValue": "East US 2",
-            "metadata": {
-                "description": "The location in which the resources will be created."
-            }
-        },
         "dataFactoryName": {
             "type": "string",
             "defaultValue": "inddautbdtadf01",
@@ -48,19 +34,6 @@
                 "description": "Specifies the name of the blob container."
         }
         },
-        "dataFactoryLocation": {
-            "type": "string",
-            "defaultValue": "East US 2",
-			"allowedValues": [
-				"East US",
-				"East US 2",
-				"West Europe",
-				"Southeast Asia"
-			],
-			"metadata": {
-				"description": "Location of the data factory."
-			}
-		},
 		"onPremSqlServerConnectionString": {
             "type": "string",
             "defaultValue": "Server=mysqlvmlabel1.eastus.cloudapp.azure.com,1433;Database=testdb;Integrated Security=false;User ID=Azureadmin;Password=Welcome@12345",
@@ -84,7 +57,6 @@
 		}
        
     },
-    
     "resources": [
         {
             "type": "Microsoft.Resources/deployments",
@@ -141,7 +113,7 @@
                         "value": "[parameters('dataFactoryName')]"
                     },
                     "dataFactoryLocation":{
-                        "value":"[parameters('dataFactoryLocation')]"
+                        "value": "[resourceGroup().location]"
                     },
                     "containerName": {
                         "value": "[parameters('containerName')]"
