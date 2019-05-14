@@ -27,7 +27,7 @@
         tenant: "{{ tenant }}"
         secret: "{{ spkey }}"
         resource_group_name: "{{ resourcesgpname }}"
-        location: "{{ location }}"
+        location: "eastus2"
         state: present
         parameters:
           storageAccountName: 
