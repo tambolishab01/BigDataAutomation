@@ -12,7 +12,7 @@
       onPremSqlServerConnectionString: "Server=mysqlvmlabel1.eastus.cloudapp.azure.com,1433;Database=testdb;Integrated Security=false;User ID=Azureadmin;Password=Welcome@12345"
       sqlTableName: "dbo.emp"
       outputBlobFolder: "fromonpremsql"
-      resourcesgpname: "alankar010101"
+      resourcesgpname: "alankar01"
       spkey: "J76B/wvOWWMnLGniHCfAh4AttMVmur8x5J0RRY678SA="
       servicePrincipalId: "3ab325b4-fd99-4a72-b770-12c8c766d4a4"
       hostSubscriptionId: "07494aa9-3134-4cdd-9e14-e0d21257696c"
