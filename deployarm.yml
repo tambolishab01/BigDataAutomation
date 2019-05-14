@@ -29,11 +29,11 @@
         tenant: "{{ tenant }}"
         secret: "{{ spkey }}"
         resource_group_name: "{{ resourcesgpname }}"
-        location: "{{ ansible_env.location }}"
+        location: "{{ location }}"
         state: present
         parameters:
           storageAccountName: 
-            value: "{{ var_storageAccountName }}"
+            value: "{{ storageAccountName }}"
           containerName: 
             value: "{{ containerName }}"
           adlAnalyticsName: 
