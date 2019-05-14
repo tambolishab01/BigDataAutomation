@@ -2,6 +2,25 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "vaults_name": {
+            "defaultValue": "alankv321",
+            "type": "string"
+        },
+        "vaults_rg_name": {
+            "defaultValue": "demo1234",
+            "type": "string"
+        },
+        "secretName": {
+            "type": "string",
+            "defaultValue": "password",
+            "metadata": {
+                "description": "Specifies the name of the secret that you want to create."
+            }
+        },
+        "keyVault-settings": {
+            "type": "string", 
+            "value": "[variables('keyVault-settings')]"
+        },
         "storageAccountName": {
             "type": "string",
             "defaultValue": "inddautbdtstr01"
@@ -32,30 +51,39 @@
             "defaultValue": "inddautbdtadf01",
             "metadata": {
                 "description": "Specifies the name of the blob container."
-        }
+            }
         },
-		"onPremSqlServerConnectionString": {
+        "onPremSqlServerConnectionString": {
             "type": "string",
             "defaultValue": "Server=mysqlvmlabel1.eastus.cloudapp.azure.com,1433;Database=testdb;Integrated Security=false;User ID=Azureadmin;Password=Welcome@12345",
-			"metadata": {
-				"description": "Connnection string for the on-premsies SQL Server database."
-			}
-		},
-		"sqlTableName": {
+            "metadata": {
+                "description": "Connnection string for the on-premsies SQL Server database."
+            }
+        },
+        "sqlTableName": {
             "type": "string",
             "defaultValue": "dbo.emp",
-			"metadata": {
-				"description": "Name of the target table in the Azure SQL database."
-			}
-		},
-		"outputBlobFolder": {
+            "metadata": {
+                "description": "Name of the target table in the Azure SQL database."
+            }
+        },
+        "outputBlobFolder": {
             "type": "string",
             "defaultValue": "fromonpremsql",
-			"metadata": {
-				"description": "The folder in the blob container to which the data is copied."
-			}
-		}
-       
+            "metadata": {
+                "description": "The folder in the blob container to which the data is copied."
+            }
+        }
+    },
+    "variables": {
+        "keyVault-settings": {
+            "name": "[parameters('vaults_name')]",
+            "existingRg": "[parameters('vaults_rg_name')]",
+            "secret": "[parameters('secretName')]"
+        },
+        "ids": {
+            "keyVault": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('keyVault-settings').existingRg, '/providers/Microsoft.KeyVault/vaults/', parameters('keyVault-settings').name)]"
+        }
     },
     "resources": [
         {
@@ -112,7 +140,7 @@
                     "dataFactoryName": {
                         "value": "[parameters('dataFactoryName')]"
                     },
-                    "dataFactoryLocation":{
+                    "dataFactoryLocation": {
                         "value": "[resourceGroup().location]"
                     },
                     "containerName": {
@@ -122,17 +150,23 @@
                         "value": "[reference('blobstoragetemplate').outputs.astrrid.value]"
                     },
                     "onPremSqlServerConnectionString": {
-                         "value": "[parameters('onPremSqlServerConnectionString')]"
-
+                        "value": {
+                            "reference": {
+                                "keyVault": {
+                                    "id": "[variables('ids').keyVault]"
+                                },
+                                "secretName": "[parameters('keyVault-settings').secret]"
+                            }
+                        }
                     },
                     "sqlTableName": {
                         "value": "[parameters('sqlTableName')]"
                     },
                     "outputBlobFolder": {
-                        "value":"[parameters('outputBlobFolder')]"
+                        "value": "[parameters('outputBlobFolder')]"
                     }
                 }
             }
-        }       
+        }
     ]
 }

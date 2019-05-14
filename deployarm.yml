@@ -12,6 +12,7 @@
       sqlTableName: "dbo.emp"
       outputBlobFolder: "fromonpremsql"
       resourcesgpname: "alankar01"
+      location: "eastus2"
       spkey: "J76B/wvOWWMnLGniHCfAh4AttMVmur8x5J0RRY678SA="
       servicePrincipalId: "3ab325b4-fd99-4a72-b770-12c8c766d4a4"
       hostSubscriptionId: "07494aa9-3134-4cdd-9e14-e0d21257696c"
@@ -27,7 +28,7 @@
         tenant: "{{ tenant }}"
         secret: "{{ spkey }}"
         resource_group_name: "{{ resourcesgpname }}"
-        location: "eastus2"
+        location: "{{ location }}"
         state: present
         parameters:
           storageAccountName: 
