@@ -21,9 +21,16 @@
       hostSubscriptionId: "07494aa9-3134-4cdd-9e14-e0d21257696c"
       tenant: "c160a942-c869-429f-8a96-f8c8296d57db"
       templateLink: 'https://raw.githubusercontent.com/alankarmehta/BigDataAutomation/master/Main_Template1.json'
+
+
   tasks:
+    - name: Fetch service principal key from shared Key Vault
+      shell: >
+        echo $(az keyvault secret show --name "{{ secretName }}" --vault-name "{{ vaults_name }}" --query value --output tsv)
+      register: var_connstring
+
+
     - name: Deploy ARM template
-      
       azure_rm_deployment:
         subscription_id: "{{ hostSubscriptionId }}"
         client_id: "{{ servicePrincipalId }}"
@@ -50,7 +57,7 @@
           dataFactoryName: 
             value: "{{ dataFactoryName }}"
           onPremSqlServerConnectionString: 
-            value: "{{ onPremSqlServerConnectionString }}"
+            value: "{{ var_connstring.stdout }}"
           sqlTableName: 
             value: "{{ sqlTableName }}"
           outputBlobFolder: 
