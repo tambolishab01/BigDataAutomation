@@ -33,7 +33,7 @@
 
     - name: Fetch service principal key from shared Key Vault
       shell: >
-            az keyvault secret show --name "{{ secretName }}" --vault-name alankv321 --query value --output tsv
+            echo $(az keyvault secret show --name "{{ secretName }}" --vault-name alankv321 --query value --output tsv)
       register: var_connstring
 
     - name: Deploy ARM template
