@@ -14,14 +14,8 @@
 				"description": "Location of the data factory."
 			}
 		},
-		"keyVault-settings": {
-			"type": "object",
-			"metadata": {
-				"description": "These are the settings for the key vault"
-			}
-		},
 		"onPremSqlServerConnectionString": {
-            "type": "string",
+            "type": "object",
 			"metadata": {
 				"description": "Connnection string for the on-premsies SQL Server database."
 			}

@@ -53,13 +53,6 @@
                 "description": "Specifies the name of the blob container."
             }
         },
-        "onPremSqlServerConnectionString": {
-            "type": "string",
-            "defaultValue": "Server=mysqlvmlabel1.eastus.cloudapp.azure.com,1433;Database=testdb;Integrated Security=false;User ID=Azureadmin;Password=Welcome@12345",
-            "metadata": {
-                "description": "Connnection string for the on-premsies SQL Server database."
-            }
-        },
         "sqlTableName": {
             "type": "string",
             "defaultValue": "dbo.emp",

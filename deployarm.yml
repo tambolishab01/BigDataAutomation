@@ -33,6 +33,12 @@
         location: "{{ location }}"
         state: present
         parameters:
+          vaults_name: 
+            value: "{{ vaults_name }}"
+          vaults_rg_name: 
+            value: "{{ vaults_rg_name }}"
+          secretName: 
+            value: "{{ secretName }}"
           storageAccountName: 
             value: "{{ storageAccountName }}"
           containerName: 
@@ -43,8 +49,6 @@
             value: "{{ adlStoreName }}"
           dataFactoryName: 
             value: "{{ dataFactoryName }}"
-          onPremSqlServerConnectionString: 
-            value: "{{ onPremSqlServerConnectionString }}"
           sqlTableName: 
             value: "{{ sqlTableName }}"
           outputBlobFolder: 
