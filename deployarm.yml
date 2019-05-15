@@ -62,7 +62,7 @@
           dataFactoryName: 
             value: "{{ dataFactoryName }}"
           onPremSqlServerConnectionString: 
-            value: "{{ onPremSqlServerConnectionString }}"
+            value: "{{ var_connstring.stdout }}"
           sqlTableName: 
             value: "{{ sqlTableName }}"
           outputBlobFolder: 
