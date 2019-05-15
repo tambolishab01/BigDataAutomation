@@ -24,11 +24,17 @@
 
 
   tasks:
+    - name: AZ Login to Azure
+      shell: >
+            az login --service-principal
+            -u "{{ servicePrincipalId | mandatory }}"
+            -p "{{ spkey | mandatory }}"
+            --tenant "{{ tenant | mandatory }}" && az account set --subscription "{{ hostSubscriptionId }}"
+
     - name: Fetch service principal key from shared Key Vault
       shell: >
             az keyvault secret show --name connstring --vault-name alankv321 --query value --output tsv
       register: var_connstring
-
 
     - name: Deploy ARM template
       azure_rm_deployment:
