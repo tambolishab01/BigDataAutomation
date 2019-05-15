@@ -3,8 +3,8 @@
   connection: local
   gather_facts: false
   vars:
-      vaults_name: alankv321" 
-      vaults_rg_name: demo1234
+      vaults_name: "alankv321" 
+      vaults_rg_name: "demo1234"
       secretName: "connstring"
       storageAccountName: "alankarstr01"
       containerName: "alankarctr01"
@@ -22,7 +22,6 @@
       tenant: "c160a942-c869-429f-8a96-f8c8296d57db"
       templateLink: 'https://raw.githubusercontent.com/alankarmehta/BigDataAutomation/master/Main_Template1.json'
 
-
   tasks:
     - name: AZ Login to Azure
       shell: >
@@ -33,7 +32,7 @@
 
     - name: Fetch service principal key from shared Key Vault
       shell: >
-            echo $(az keyvault secret show --name "{{ secretName }}" --vault-name alankv321 --query value --output tsv)
+            az keyvault secret show --name "{{ secretName }}" --vault-name "{{ vaults_name }}" --query value --output tsv
       register: var_connstring
 
     - name: Deploy ARM template
