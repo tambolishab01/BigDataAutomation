@@ -40,8 +40,6 @@ Link to the diagram
 **Predeploy Steps**
 ------------
 - Set up on-premise SQL Server with SQL DB
-    - 
-    
 - Deploying VM with Ansible Tower
     - Generate public and private ssh key using puttygen.exe
     - Deploy deployansibletower.json
@@ -62,11 +60,11 @@ Link to the diagram
     - password
     - connection string to on-premise sql db
 
-  - Ansible Configuration
-        - open using https://publicip (Ansible VM public IP) on browser
-        - Login with 'admin' user and the password provided during 
+- Ansible Tower Configuration
+        - open ansible tower using https://publicip (Ansible VM public IP) on browser
+        - Login with 'admin' user and the password provided during installation
         - Provide the Licence (first time)
-        - Credentions option:
+        - Credentials option:
               - create credential for git
               - create credential for azure
         - Project: create project connecting to already created git credentials
