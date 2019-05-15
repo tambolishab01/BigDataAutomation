@@ -17,10 +17,6 @@
                 "description": "Specifies the name of the secret that you want to create."
             }
         },
-        "keyVault-settings": {
-            "type": "string", 
-            "defaultValue": "[variables('keyVault-settings')]"
-        },
         "storageAccountName": {
             "type": "string",
             "defaultValue": "inddautbdtstr01"
@@ -75,7 +71,7 @@
             "secret": "[parameters('secretName')]"
         },
         "ids": {
-            "keyVault": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('keyVault-settings').existingRg, '/providers/Microsoft.KeyVault/vaults/', parameters('keyVault-settings').name)]"
+            "keyVault": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', variables('keyVault-settings').existingRg, '/providers/Microsoft.KeyVault/vaults/', variables('keyVault-settings').name)]"
         }
     },
     "resources": [
@@ -148,7 +144,7 @@
                                 "keyVault": {
                                     "id": "[variables('ids').keyVault]"
                                 },
-                                "secretName": "[parameters('keyVault-settings').secret]"
+                                "secretName": "[variables('keyVault-settings').secret]"
                             }
                         }
                     },
