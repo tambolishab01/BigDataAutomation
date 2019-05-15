@@ -26,7 +26,7 @@
   tasks:
     - name: Fetch service principal key from shared Key Vault
       shell: >
-        echo $(az keyvault secret show --name "{{ secretName }}" --vault-name "{{ vaults_name }}" --query value --output tsv)
+            az keyvault secret show --name "{{ secretName }}" --vault-name "{{ vaults_name }}" --query value --output tsv
       register: var_connstring
 
 
