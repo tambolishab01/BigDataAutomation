@@ -84,7 +84,7 @@
 						"typeProperties": {
 							"connectionString": {
 								"type": "SecureString",
-								"value": "[parameters('onPremSqlServerConnectionString')]"
+								"value": "[parameters('onPremSqlServerConnectionString').value]"
 							}
 						}
 					},
