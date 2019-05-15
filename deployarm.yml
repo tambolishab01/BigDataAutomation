@@ -49,6 +49,8 @@
             value: "{{ adlStoreName }}"
           dataFactoryName: 
             value: "{{ dataFactoryName }}"
+          onPremSqlServerConnectionString: 
+            value: "{{ onPremSqlServerConnectionString }}"
           sqlTableName: 
             value: "{{ sqlTableName }}"
           outputBlobFolder: 

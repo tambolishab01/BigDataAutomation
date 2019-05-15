@@ -15,7 +15,7 @@
 			}
 		},
 		"onPremSqlServerConnectionString": {
-            "type": "object",
+            "type": "string",
 			"metadata": {
 				"description": "Connnection string for the on-premsies SQL Server database."
 			}
@@ -84,7 +84,7 @@
 						"typeProperties": {
 							"connectionString": {
 								"type": "SecureString",
-								"value": "[parameters('onPremSqlServerConnectionString').value]"
+								"value": "[parameters('onPremSqlServerConnectionString')]"
 							}
 						}
 					},
