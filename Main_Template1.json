@@ -19,7 +19,7 @@
         },
         "keyVault-settings": {
             "type": "string", 
-            "value": "[variables('keyVault-settings')]"
+            "defaultValue": "[variables('keyVault-settings')]"
         },
         "storageAccountName": {
             "type": "string",
