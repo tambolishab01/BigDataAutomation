@@ -41,16 +41,16 @@ Link to the diagram
 -------------------
 
 - Provision on-premise [*SQL Server*](https://github.com/alankarmehta/BigDataAutomation/tree/master/predeploy/SqlServer) with SQL DB and this sever will also act has source for CSV files
-      - This source data from the server will be ingested to the Azure Blob for processing
-      - note: For demo purpose we have setup the SQL Server on Azure cloud
+    - This source data from the server will be ingested to the Azure Blob for processing
+    - note: For demo purpose we have setup the SQL Server on Azure cloud
 
 - Deploying VM with [*Ansible Tower*](https://github.com/alankarmehta/BigDataAutomation/tree/master/predeploy/AnsibleTower)
     - Generate public and private ssh key using puttygen.exe
     - Deploy Ansible Tower deployansibletower.json
-          - Ensure the linked template file (ansibletowervm.json) and Ansible Tower installation script (installansibletowerscript.sh) are in same folder
-          - Specify the folder path in the deployansibletower.json for parameter _artifactsLocation
-          - Provide the public key to the  parameter sshKeyData
-          - Remember the Ansible tower username and admin password provided
+            - Ensure the linked template file (ansibletowervm.json) and Ansible Tower installation script (installansibletowerscript.sh) are in same folder
+            - Specify the folder path in the deployansibletower.json for parameter _artifactsLocation
+            - Provide the public key to the  parameter sshKeyData
+             - Remember the Ansible tower username and admin password provided
 
     - Test installed Ansible Tower
           - Connect to Linux VM using ssh (private key first time)
@@ -64,23 +64,23 @@ Link to the diagram
     - connection string to on-premise sql db
 
 - Ansible Tower Configuration
-        - open ansible tower using https://publicip (Ansible VM public IP) on browser
-        - Login with 'admin' user and the admin password provided during installation
-        - Provide the Licence (first time)
-        - Credentials option:
+    - open ansible tower using https://publicip (Ansible VM public IP) on browser
+    - Login with 'admin' user and the admin password provided during installation
+    - Provide the Licence (first time)
+    - Credentials option:
               - create credential for git
               - create credential for azure
-        - Project: create project connecting to already created git credentials
-        - Create [*playbook*](https://github.com/alankarmehta/BigDataAutomation/blob/master/deployarm.yml) script which will have tasks to fetch secret keys and execute [*arm template*](https://github.com/alankarmehta/BigDataAutomation/blob/master/Main_Template1.json)
-        - Open template option, configure playbook yaml file name (deployarm.yml) and select azure credential with job type Run
+    - Project: create project connecting to already created git credentials
+    - Create [*playbook*](https://github.com/alankarmehta/BigDataAutomation/blob/master/deployarm.yml) script which will have tasks to fetch secret keys and execute [*arm template*](https://github.com/alankarmehta/BigDataAutomation/blob/master/Main_Template1.json)
+    - Open template option, configure playbook yaml file name (deployarm.yml) and select azure credential with job type Run
 
 **Deployment Steps**
 ------------------------
 
 - Deploying using Ansible Tower
-      - Loing to Ansible Tower using https://publicip
+      - Login in to Ansible Tower using https://publicip
       - Click on Template option
-      - Click on 'Start a job using this template' option
+      - Click on 'Start a job using this template' option on appropiate template
 
 - 
 
