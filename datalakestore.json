@@ -65,10 +65,22 @@
       "dependsOn": [
         "[resourceId('Microsoft.DataLakeStore/accounts', parameters('adlStoreName'))]"
       ],
-        "properties": {
-          "startIpAddress": "[parameters('startIpAddress')]",
-          "endIpAddress": "[parameters('endIpAddress')]"
-        }
+      "properties": {
+        "startIpAddress": "[parameters('startIpAddress')]",
+        "endIpAddress": "[parameters('endIpAddress')]"
+      }
+    },
+    {
+      "type": "Microsoft.DataLakeAnalytics/accounts/firewallRules",
+      "apiVersion": "2016-11-01",
+      "name": "[concat(parameters('adlAnalyticsName'), '/rule2')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.DataLakeAnalytics/accounts', parameters('adlAnalyticsName'))]"
+      ],
+      "properties": {
+        "startIpAddress": "[parameters('startIpAddress')]",
+        "endIpAddress": "[parameters('endIpAddress')]"
+      }
     }
   ],
   "outputs": {
