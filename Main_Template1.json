@@ -120,7 +120,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "https://github.com/alankarmehta/BigDataAutomation/blob/master/ADF.json",
+                    "uri": "https://raw.githubusercontent.com/alankarmehta/BigDataAutomation/master/ADF.json",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
