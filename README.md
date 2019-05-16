@@ -51,7 +51,7 @@ Link to the diagram
     - connection string to on-premise sql db
 
 - Ansible Tower Configuration
-    - open ansible tower using https://<<Ansible VM public IP>> on browser
+    - open ansible tower using https:// Ansible VM public IP on browser
     - Login with 'admin' user and the admin password provided during installation
     - Provide the Licence (first time)
     - Credentials option:
@@ -66,6 +66,6 @@ Link to the diagram
 ------------------------
 
 - Deploying using Ansible Tower
-    - Login in to Ansible Tower using https://<<Ansible VM public IP>>
+    - Login in to Ansible Tower using https:// Ansible VM public IP
     - Click on Template option
     - Click on 'Start a job using this template' option on appropiate template
