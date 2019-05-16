@@ -20,7 +20,7 @@ To provision big data infrastructure on Azure by deploying required services usi
 **Diagram**
 ------------
 
-Link to the diagram
+[*Click for the diagram*](https://github.com/alankarmehta/BigDataAutomation/tree/master/BigDataBatch.JPG)
 
 **Predeploy Steps**
 -------------------
