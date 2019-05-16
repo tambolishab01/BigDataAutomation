@@ -6,6 +6,8 @@
       vaults_name: "alankv321" 
       vaults_rg_name: "demo1234"
       secretName: "connstring"
+      startIpAddress: "40.117.225.10"
+      endIpAddress: "40.117.225.10"
       storageAccountName: "alankarstr01"
       containerName: "alankarctr01"
       adlAnalyticsName: "alankardla01"
@@ -45,12 +47,10 @@
         location: "{{ location }}"
         state: present
         parameters:
-          vaults_name: 
-            value: "{{ vaults_name }}"
-          vaults_rg_name: 
-            value: "{{ vaults_rg_name }}"
-          secretName: 
-            value: "{{ secretName }}"
+          startIpAddress: 
+            value: "{{ startIpAddress }}"
+          endIpAddress: 
+            value: "{{ endIpAddress }}"
           storageAccountName: 
             value: "{{ storageAccountName }}"
           containerName: 

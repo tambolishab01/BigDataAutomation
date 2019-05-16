@@ -2,21 +2,14 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "vaults_name": {
-            "defaultValue": "alankv321",
+        "startIpAddress": {
+            "defaultValue": "40.117.225.10",
             "type": "string"
-        },
-        "vaults_rg_name": {
-            "defaultValue": "demo1234",
+          },
+          "endIpAddress": {
+            "defaultValue": "40.117.225.10",
             "type": "string"
-        },
-        "secretName": {
-            "type": "string",
-            "defaultValue": "password",
-            "metadata": {
-                "description": "Specifies the name of the secret that you want to create."
-            }
-        },
+          },
         "storageAccountName": {
             "type": "string",
             "defaultValue": "inddautbdtstr01"
@@ -70,16 +63,6 @@
             }
         }
     },
-    "variables": {
-        "keyVault-settings": {
-            "name": "[parameters('vaults_name')]",
-            "existingRg": "[parameters('vaults_rg_name')]",
-            "secret": "[parameters('secretName')]"
-        },
-        "ids": {
-            "keyVault": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', variables('keyVault-settings').existingRg, '/providers/Microsoft.KeyVault/vaults/', variables('keyVault-settings').name)]"
-        }
-    },
     "resources": [
         {
             "type": "Microsoft.Resources/deployments",
@@ -92,6 +75,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "startIpAddress": {
+                        "value": "[parameters('startIpAddress')]"
+                    },
                     "storageAccountName": {
                         "value": "[parameters('storageAccountName')]"
                     },
@@ -112,6 +98,12 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "startIpAddress": {
+                        "value": "[parameters('startIpAddress')]"
+                    },
+                    "endIpAddress": {
+                        "value": "[parameters('endIpAddress')]"
+                    },
                     "adlAnalyticsName": {
                         "value": "[parameters('adlAnalyticsName')]"
                     },

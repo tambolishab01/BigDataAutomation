@@ -2,6 +2,18 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "startIpAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "IP address to provide access too"
+      }
+    },
+    "endIpAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "IP address to provide access too"
+      }
+    },
     "adlAnalyticsName": {
       "type": "string",
       "metadata": {
@@ -44,6 +56,34 @@
             "name": "[parameters('adlStoreName')]"
           }
         ]
+      }
+    },
+    {
+      "type": "Microsoft.DataLakeStore/accounts/firewallRules",
+      "apiVersion": "2016-11-01",
+      "name": "[concat(parameters('adlStoreName'), '/rule1')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.DataLakeStore/accounts', parameters('adlStoreName'))]"
+      ],
+      "properties": {
+        "properties": {
+          "startIpAddress": "[parameters('startIpAddress')]",
+          "endIpAddress": "[parameters('endIpAddress')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.DataLakeAnalytics/accounts/firewallRules",
+      "apiVersion": "2016-11-01",
+      "name": "[concat(parameters('adlAnalyticsName'), '/rule1')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.DataLakeAnalytics/accounts', parameters('adlAnalyticsName'))]"
+      ],
+      "properties": {
+        "properties": {
+          "startIpAddress": "[parameters('startIpAddress')]",
+          "endIpAddress": "[parameters('endIpAddress')]"
+        }
       }
     }
   ],
