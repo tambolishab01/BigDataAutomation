@@ -9,7 +9,7 @@ Index:
 
 3.  [*Predeploy Steps*](#predeploy-steps)
 
-4.  [*Technical assistance*](#technical-assistance)
+4.  [*Deployment Steps*](#deployment-steps)
 
 5.  [*Performance measurement*](#performance-measurement)
 
@@ -33,52 +33,56 @@ Index:
 To provision big data infrastructure on Azure by deploying required services using script (IaaC).
 
 **Diagram**
----------------------
+------------
 
 Link to the diagram
 
 **Predeploy Steps**
-------------
-- Set up on-premise SQL Server with SQL DB
-- Deploying VM with Ansible Tower
+-------------------
+
+- Provision on-premise [*SQL Server*](https://github.com/alankarmehta/BigDataAutomation/tree/master/predeploy/SqlServer) with SQL DB and this sever will also act has source for CSV files
+      - This source data from the server will be ingested to the Azure Blob for processing
+      - note: For demo purpose we have setup the SQL Server on Azure cloud
+
+- Deploying VM with [*Ansible Tower*](https://github.com/alankarmehta/BigDataAutomation/tree/master/predeploy/AnsibleTower)
     - Generate public and private ssh key using puttygen.exe
-    - Deploy deployansibletower.json
+    - Deploy Ansible Tower deployansibletower.json
           - Ensure the linked template file (ansibletowervm.json) and Ansible Tower installation script (installansibletowerscript.sh) are in same folder
           - Specify the folder path in the deployansibletower.json for parameter _artifactsLocation
           - Provide the public key to the  parameter sshKeyData
-          - Note down the Ansible tower user name provided
+          - Remember the Ansible tower username and admin password provided
 
     - Test installed Ansible Tower
           - Connect to Linux VM using ssh (private key first time)
           - Login using the Ansible tower user name provided during script execution
     
-    - Install Azure CLI with yum, detail steps in below URL
-            https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-yum?view=azure-cli-latest
-
-- Provisioning Key Vault and storing secrets such as
+    - Install Azure CLI with yum, for [*detail steps*](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-yum?view=azure-cli-latest)
+            
+- Provisioning [*Key Vault*](https://github.com/alankarmehta/BigDataAutomation/tree/master/predeploy/KeyVault) and storing secrets such as
     - username
     - password
     - connection string to on-premise sql db
 
 - Ansible Tower Configuration
         - open ansible tower using https://publicip (Ansible VM public IP) on browser
-        - Login with 'admin' user and the password provided during installation
+        - Login with 'admin' user and the admin password provided during installation
         - Provide the Licence (first time)
         - Credentials option:
               - create credential for git
               - create credential for azure
         - Project: create project connecting to already created git credentials
-        - Create deployarm.yml script which will have tasks to fetch secret keys and execute arm template (Main_Template1.json)
-        - Open template option, configure yaml file name (deployarm.yml) and select azure credential
-        
+        - Create [*playbook*](https://github.com/alankarmehta/BigDataAutomation/blob/master/deployarm.yml) script which will have tasks to fetch secret keys and execute [*arm template*](https://github.com/alankarmehta/BigDataAutomation/blob/master/Main_Template1.json)
+        - Open template option, configure playbook yaml file name (deployarm.yml) and select azure credential with job type Run
 
-
-**Technical assistance**
+**Deployment Steps**
 ------------------------
 
-You can contact other Bootcamp participants or any available tutor if you need technical assistance. 
+- Deploying using Ansible Tower
+      - Loing to Ansible Tower using https://publicip
+      - Click on Template option
+      - Click on 'Start a job using this template' option
 
-You can connect them on HangOut or SLACK channel created for bootcamp. Note that candidates have to reach out to instructor in case of issues/clarifications to complete their assignments on time. Delivering assignments to tutor's expectation is candidate's responsibility.
+- 
 
 **Performance Measurement**
 ---------------------------
