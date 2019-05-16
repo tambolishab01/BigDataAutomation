@@ -47,14 +47,16 @@ Link to the diagram
 - Deploying VM with [*Ansible Tower*](https://github.com/alankarmehta/BigDataAutomation/tree/master/predeploy/AnsibleTower)
     - Generate public and private ssh key using puttygen.exe
     - Deploy Ansible Tower deployansibletower.json
-            - Ensure the linked template file (ansibletowervm.json) and Ansible Tower installation script (installansibletowerscript.sh) are in same folder
-            - Specify the folder path in the deployansibletower.json for parameter _artifactsLocation
-            - Provide the public key to the  parameter sshKeyData
-             - Remember the Ansible tower username and admin password provided
+            
+         - Ensure the linked template file (ansibletowervm.json) and Ansible Tower installation script (installansibletowerscript.sh) are in same folder
+         - Specify the folder path in the deployansibletower.json for parameter _artifactsLocation
+         - Provide the public key to the  parameter sshKeyData
+         - Remember the Ansible tower username and admin password provided
 
     - Test installed Ansible Tower
-          - Connect to Linux VM using ssh (private key first time)
-          - Login using the Ansible tower user name provided during script execution
+         
+         - Connect to Linux VM using ssh (private key first time)
+         - Login using the Ansible tower user name provided during script execution
     
     - Install Azure CLI with yum, for [*detail steps*](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-yum?view=azure-cli-latest)
             
@@ -68,8 +70,9 @@ Link to the diagram
     - Login with 'admin' user and the admin password provided during installation
     - Provide the Licence (first time)
     - Credentials option:
-              - create credential for git
-              - create credential for azure
+         
+         - create credential for git
+         - create credential for azure
     - Project: create project connecting to already created git credentials
     - Create [*playbook*](https://github.com/alankarmehta/BigDataAutomation/blob/master/deployarm.yml) script which will have tasks to fetch secret keys and execute [*arm template*](https://github.com/alankarmehta/BigDataAutomation/blob/master/Main_Template1.json)
     - Open template option, configure playbook yaml file name (deployarm.yml) and select azure credential with job type Run
@@ -78,9 +81,9 @@ Link to the diagram
 ------------------------
 
 - Deploying using Ansible Tower
-      - Login in to Ansible Tower using https://publicip
-      - Click on Template option
-      - Click on 'Start a job using this template' option on appropiate template
+    - Login in to Ansible Tower using https://publicip
+    - Click on Template option
+    - Click on 'Start a job using this template' option on appropiate template
 
 - 
 
