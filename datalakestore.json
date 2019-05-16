@@ -57,34 +57,6 @@
           }
         ]
       }
-    },
-    {
-      "type": "Microsoft.DataLakeStore/accounts/firewallRules",
-      "apiVersion": "2016-11-01",
-      "name": "[concat(parameters('adlStoreName'), '/rule1')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.DataLakeStore/accounts', parameters('adlStoreName'))]"
-      ],
-      "properties": {
-        "properties": {
-          "startIpAddress": "[parameters('startIpAddress')]",
-          "endIpAddress": "[parameters('endIpAddress')]"
-        }
-      }
-    },
-    {
-      "type": "Microsoft.DataLakeAnalytics/accounts/firewallRules",
-      "apiVersion": "2016-11-01",
-      "name": "[concat(parameters('adlAnalyticsName'), '/rule1')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.DataLakeAnalytics/accounts', parameters('adlAnalyticsName'))]"
-      ],
-      "properties": {
-        "properties": {
-          "startIpAddress": "[parameters('startIpAddress')]",
-          "endIpAddress": "[parameters('endIpAddress')]"
-        }
-      }
     }
   ],
   "outputs": {
