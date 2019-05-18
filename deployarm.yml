@@ -3,8 +3,8 @@
   connection: local
   gather_facts: false
   vars:
-      vaults_name: "kvbigdata" 
-      vaults_rg_name: "ansiblerg"
+      vaults_name: "alankv321" 
+      vaults_rg_name: "demo1234"
       secretName: "connstring"
       startIpAddress: "219.65.93.114"
       endIpAddress: "219.65.93.114"
