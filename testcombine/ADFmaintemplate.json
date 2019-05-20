@@ -1,0 +1,123 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dataFactoryName": {
+            "type": "string"
+        },
+        "containerName": {
+			"type": "string"
+		},
+        "dataFactoryLocation": {
+            "type": "string",
+			"metadata": {
+				"description": "Location of the data factory."
+			}
+		},
+		"onPremSqlServerConnectionString": {
+            "type": "string",
+			"metadata": {
+				"description": "Connnection string for the on-premsies SQL Server database."
+			}
+		},
+		"sqlTableName": {
+            "type": "string",
+			"metadata": {
+				"description": "Name of the target table in the Azure SQL database."
+			}
+		},
+		"azureStorageConnectionString": {
+            "type": "securestring",
+			"metadata": {
+				"description": "Connection string for the Azure Storage account."
+			}
+		},
+		"outputBlobFolder": {
+            "type": "string",
+			"metadata": {
+				"description": "The folder in the blob container to which the data is copied."
+			}
+        },
+        "FileServer1_properties_typeProperties_userId": {
+            "type": "string",
+            "metadata": "string 'ID' of 'FileServer1'"
+        },
+        "FileServer1_password": {
+            "type": "secureString",
+            "metadata": "Secure string for 'password' of 'FileServer1'"
+        }
+
+    },
+
+    "resources":[
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "name": "firstcopypipeline",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://sqlpiplinestorage.blob.core.windows.net/adfsqlcontainer/firstpipe.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "dataFactoryName": {
+                        "value": "[parameters('dataFactoryName')]"
+                    },
+                    "dataFactoryLocation":{
+                        "value":"[parameters('dataFactoryLocation')]"
+                    },
+                    "containerName": {
+                        "value": "[parameters('containerName')]"
+                    },
+                    "azureStorageConnectionString": {
+                        "value": "[parameters('azureStorageConnectionString')]"
+                    },
+                    "onPremSqlServerConnectionString": {
+                         "value": "[parameters('onPremSqlServerConnectionString')]"
+
+                    },
+                    "sqlTableName": {
+                        "value": "[parameters('sqlTableName')]"
+                    },
+                    "outputBlobFolder": {
+                        "value":"[parameters('outputBlobFolder')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "name": "filesharepipeline",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://sqlpiplinestorage.blob.core.windows.net/adfsqlcontainer/filesharepipe.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "dataFactoryName": {
+                        "value": "[parameters('dataFactoryName')]"
+                    },
+                    "dataFactoryLocation":{
+                        "value":"[parameters('dataFactoryLocation')]"
+                    },
+                    "containerName": {
+                        "value": "[parameters('containerName')]"
+                    },
+                    "azureStorageConnectionString": {
+                        "value": "[parameters('azureStorageConnectionString')]"
+                    },
+                    "FileServer1_properties_typeProperties_userId":{
+                        "value":"[parameters('FileServer1_properties_typeProperties_userId')]"
+                    },
+                    "FileServer1_password":{
+                        "value":"[parameters('FileServer1_password')]"
+                    }
+                }
+            }
+        }
+    ]
+   
+}

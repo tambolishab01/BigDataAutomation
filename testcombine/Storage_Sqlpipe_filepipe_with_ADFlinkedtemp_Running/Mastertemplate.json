@@ -1,0 +1,297 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccountName": {
+            "type": "string",
+            "defaultValue": "inddautbdtstr01"
+        },
+        "containerName": {
+            "type": "string",
+            "defaultValue": "logs",
+            "metadata": {
+                "description": "Specifies the name of the blob container."
+            }
+        },
+        "adlAnalyticsName": {
+            "type": "string",
+            "defaultValue": "inddautbdtdla01",
+            "metadata": {
+                "description": "The name of the Data Lake Analytics account to create."
+            }
+        },
+        "adlStoreName": {
+            "type": "string",
+            "defaultValue": "inddautbdtdls01",
+            "metadata": {
+                "description": "The name of the Data Lake Store account to create."
+            }
+        },
+        "dataFactoryName": {
+            "type": "string",
+            "defaultValue": "inddautbdtadf01",
+            "metadata": {
+                "description": "Specifies the name of the blob container."
+        }
+        },
+        "dataFactoryLocation": {
+            "type": "string",
+            "defaultValue": "East US",
+			"allowedValues": [
+				"East US",
+				"East US 2",
+				"West Europe",
+				"Southeast Asia"
+			],
+			"metadata": {
+				"description": "Location of the data factory."
+			}
+		},
+		"onPremSqlServerConnectionString": {
+            "type": "string",
+            "defaultValue": "Server=mysqlvmlabel1.eastus.cloudapp.azure.com,1433;Database=testdb;Integrated Security=false;User ID=Azureadmin;Password=Welcome@12345",
+			"metadata": {
+				"description": "Connnection string for the on-premsies SQL Server database."
+			}
+		},
+		"sqlTableName": {
+            "type": "string",
+            "defaultValue": "dbo.emp",
+			"metadata": {
+				"description": "Name of the target table in the Azure SQL database."
+			}
+		},
+		"outputBlobFolder": {
+            "type": "string",
+            "defaultValue": "fromonpremsql",
+			"metadata": {
+				"description": "The folder in the blob container to which the data is copied."
+			}
+        },
+        "FileServer1_properties_typeProperties_userId": {
+            "type": "string",
+            "defaultValue": "Azureadmin"
+        },
+        "FileServer1_password": {
+            "type": "secureString",
+            "defaultValue": "Welcome@12345",
+            "metadata": {
+                "discreption":"Secure string for 'password' of 'FileServer1'"
+            }
+        },
+        "AzureDataLakeStorelinkedservice_servicePrincipalKey": {
+            "type": "secureString",
+            "defaultValue": "8m8cLxzR1rXOBC80drWDqF2H8IUlSZ7OUhuhril5+Xc=",
+            "metadata": {
+                "description": "Secure string for 'servicePrincipalKey' of 'AzureDataLakeStorelinkedservice'"
+            }
+        },
+        "AzureDataLakeStorelinkedservice_properties_typeProperties_servicePrincipalId": {
+            "type": "string",
+            "defaultValue": "96290480-1b0b-4787-b6b3-5cf32bcd28b2"
+        },
+        "AzureDataLakeStorelinkedservice_properties_typeProperties_tenant": {
+            "type": "string",
+            "defaultValue": "c160a942-c869-429f-8a96-f8c8296d57db"
+        },
+        "AzureDataLakeStorelinkedservice_properties_typeProperties_subscriptionId": {
+            "type": "string",
+            "defaultValue": "07494aa9-3134-4cdd-9e14-e0d21257696c"
+        },
+        "inputlinkeservice_servicePrincipalKey": {
+            "type": "secureString",
+            "defaultValue": "8m8cLxzR1rXOBC80drWDqF2H8IUlSZ7OUhuhril5+Xc=",
+            "metadata": {
+                "discription":"Secure string for 'servicePrincipalKey' of 'inputlinkeservice' key for datalakestorage"
+            }
+        },
+        "AzureDataLakeAnalyticslinkservice_servicePrincipalKey": {
+            "type": "secureString",
+            "defaultValue": "8m8cLxzR1rXOBC80drWDqF2H8IUlSZ7OUhuhril5+Xc=",
+            "metadata": {
+                "discription":"Secure string for 'servicePrincipalKey' of 'AzureDataLakeAnalyticslinkservice' key for datalake anylytics"
+            }
+        },
+        "inputlinkeservice_properties_typeProperties_dataLakeStoreUri": {
+            "type": "string",
+            "defaultValue": "https://inddautbdtdls01.azuredatalakestore.net/webhdfs/v1"
+        },
+        "inputlinkeservice_properties_typeProperties_servicePrincipalId": {
+            "type": "string",
+            "defaultValue": "96290480-1b0b-4787-b6b3-5cf32bcd28b2"
+        },
+        "inputlinkeservice_properties_typeProperties_tenant": {
+            "type": "string",
+            "defaultValue": "c160a942-c869-429f-8a96-f8c8296d57db"
+        },
+        "inputlinkeservice_properties_typeProperties_subscriptionId": {
+            "type": "string",
+            "defaultValue": "07494aa9-3134-4cdd-9e14-e0d21257696c"
+        },
+        "inputlinkeservice_properties_typeProperties_resourceGroupName": {
+            "type": "string",
+            "defaultValue": "newrg"
+        },
+        "AzureDataLakeAnalyticslinkservice_properties_typeProperties_accountName": {
+            "type": "string",
+            "defaultValue": "inddautbdtdla01"
+        },
+        "AzureDataLakeAnalyticslinkservice_properties_typeProperties_servicePrincipalId": {
+            "type": "string",
+            "defaultValue": "96290480-1b0b-4787-b6b3-5cf32bcd28b2"
+        },
+        "AzureDataLakeAnalyticslinkservice_properties_typeProperties_tenant": {
+            "type": "string",
+            "defaultValue": "c160a942-c869-429f-8a96-f8c8296d57db"
+        },
+        "AzureDataLakeAnalyticslinkservice_properties_typeProperties_subscriptionId": {
+            "type": "string",
+            "defaultValue": "07494aa9-3134-4cdd-9e14-e0d21257696c"
+        },
+        "AzureDataLakeAnalyticslinkservice_properties_typeProperties_resourceGroupName": {
+            "type": "string",
+            "defaultValue": "newrg"
+        }
+
+       
+    },
+    
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "name": "blobstoragetemplate",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://sqlpiplinestorage.blob.core.windows.net/adfsqlcontainer/storageacnt.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[parameters('storageAccountName')]"
+                    },
+                    "containerName": {
+                        "value": "[parameters('containerName')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "name": "datalakestorageTemplate1",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "adlAnalyticsName": {
+                        "value": "[parameters('adlAnalyticsName')]"
+                    },
+                    "adlStoreName": {
+                        "value": "[parameters('adlStoreName')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "adfTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://sqlpiplinestorage.blob.core.windows.net/adfsqlcontainer/ADFmaintemplate.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "dataFactoryName": {
+                        "value": "[parameters('dataFactoryName')]"
+                    },
+                    "dataFactoryLocation":{
+                        "value":"[parameters('dataFactoryLocation')]"
+                    },
+                    "containerName": {
+                        "value": "[parameters('containerName')]"
+                    },
+                    "azureStorageConnectionString": {
+                        "value": "[reference('blobstoragetemplate').outputs.astrrid.value]"
+                    },
+                    "onPremSqlServerConnectionString": {
+                         "value": "[parameters('onPremSqlServerConnectionString')]"
+
+                    },
+                    "sqlTableName": {
+                        "value": "[parameters('sqlTableName')]"
+                    },
+                    "outputBlobFolder": {
+                        "value":"[parameters('outputBlobFolder')]"
+                    },
+                    "FileServer1_properties_typeProperties_userId":{
+                        "value":"[parameters('FileServer1_properties_typeProperties_userId')]"
+                    },
+                    "FileServer1_password":{
+                        "value":"[parameters('FileServer1_password')]"
+                    },
+                    "AzureBlobStoragelinkedservice_connectionString":{
+                        "value":"[reference('blobstoragetemplate').outputs.astrrid.value]"
+                    },
+                    "AzureDataLakeStorelinkedservice_properties_typeProperties_dataLakeStoreUri":{
+                        "value":"[reference('datalakestorageTemplate1').outputs.adlsuri.value]"
+                    },
+                    "AzureDataLakeStorelinkedservice_servicePrincipalKey":{
+                        "value":"[parameters('AzureDataLakeStorelinkedservice_servicePrincipalKey')]"
+                    },
+                    "AzureDataLakeStorelinkedservice_properties_typeProperties_servicePrincipalId":{
+                        "value":"[parameters('AzureDataLakeStorelinkedservice_properties_typeProperties_servicePrincipalId')]"
+                    },
+                    "AzureDataLakeStorelinkedservice_properties_typeProperties_tenant":{
+                        "value":"[parameters('AzureDataLakeStorelinkedservice_properties_typeProperties_tenant')]"
+                    },
+                    "AzureDataLakeStorelinkedservice_properties_typeProperties_subscriptionId":{
+                        "value":"[parameters('AzureDataLakeStorelinkedservice_properties_typeProperties_subscriptionId')]"
+                    },
+                    "inputlinkeservice_servicePrincipalKey":{
+                        "value":"[parameters('inputlinkeservice_servicePrincipalKey')]"
+                    },
+                    "AzureDataLakeAnalyticslinkservice_servicePrincipalKey":{
+                        "value":"[parameters('AzureDataLakeAnalyticslinkservice_servicePrincipalKey')]"
+                    },
+                    "inputlinkeservice_properties_typeProperties_dataLakeStoreUri":{
+                        "value":"[reference('datalakestorageTemplate1').outputs.adlsuri.value]"
+                    },
+                    "inputlinkeservice_properties_typeProperties_servicePrincipalId":{
+                        "value":"[parameters('inputlinkeservice_properties_typeProperties_servicePrincipalId')]"
+                    },
+                    "inputlinkeservice_properties_typeProperties_tenant":{
+                        "value":"[parameters('inputlinkeservice_properties_typeProperties_tenant')]"
+                    },
+                    "inputlinkeservice_properties_typeProperties_subscriptionId":{
+                        "value":"[parameters('inputlinkeservice_properties_typeProperties_subscriptionId')]"
+                    },
+                    "inputlinkeservice_properties_typeProperties_resourceGroupName":{
+                        "value":"[parameters('inputlinkeservice_properties_typeProperties_resourceGroupName')]"
+                    },
+                    "AzureDataLakeAnalyticslinkservice_properties_typeProperties_accountName":{
+                        "value":"[parameters('AzureDataLakeAnalyticslinkservice_properties_typeProperties_accountName')]"
+                    },
+                    "AzureDataLakeAnalyticslinkservice_properties_typeProperties_servicePrincipalId":{
+                        "value":"[parameters('AzureDataLakeAnalyticslinkservice_properties_typeProperties_servicePrincipalId')]"
+                    },
+                    "AzureDataLakeAnalyticslinkservice_properties_typeProperties_tenant":{
+                        "value":"[parameters('AzureDataLakeAnalyticslinkservice_properties_typeProperties_tenant')]"
+                    },
+                    "AzureDataLakeAnalyticslinkservice_properties_typeProperties_subscriptionId":{
+                        "value":"[parameters('AzureDataLakeAnalyticslinkservice_properties_typeProperties_subscriptionId')]"
+                    },
+                    "AzureDataLakeAnalyticslinkservice_properties_typeProperties_resourceGroupName":{
+                        "value":"[parameters('AzureDataLakeAnalyticslinkservice_properties_typeProperties_resourceGroupName')]"
+                    }
+                }
+            }
+        }       
+    ]
+}

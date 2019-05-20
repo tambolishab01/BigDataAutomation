@@ -1,0 +1,213 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dataFactoryName": {
+            "type": "string",
+            "metadata": "Data Factory Name"
+        },
+        "dataFactoryLocation": {
+            "type": "string",
+            "allowedValues": [
+              "East US",
+              "East US 2"
+            ],       
+            "metadata": {
+              "description": "Location of the data factory. Currently, only East US and East US 2 are supported. "
+            }
+        },
+        "FileServer1_password": {
+            "type": "secureString"
+        },
+        "azureStorageConnectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'AzureBlobStoragelinkedservice'"
+        },
+        "FileServer1_properties_typeProperties_userId": {
+            "type": "string",
+            "defaultValue": "Azureadmin"
+        }
+    },
+    "variables": {
+        "pipelinename" : "copyfilesharepipline",
+        "inputlinkedservice" : "FileServersharelinkedservice",
+        "outputlinkedservice": "AzureBlobStoragelinkedservice",
+        "inputdatasetforfile": "fileserverdataset",
+        "outputdatasetforfile": "storageblobdataset"
+    },
+    "resources":[
+        {
+            "name": "[parameters('dataFactoryName')]",
+            "apiVersion": "2018-06-01",
+            "type": "Microsoft.DataFactory/factories",
+            "location": "[resourceGroup().location]",
+            "properties": {},
+    "resources": [
+        {
+            "name": "[variables('pipelinename')]",
+            "type": "pipelines",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "activities": [
+                    {
+                        "name": "copyfilesharedfolder",
+                        "type": "Copy",
+                        "dependsOn": [],
+                        "policy": {
+                            "timeout": "7.00:00:00",
+                            "retry": 0,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": false,
+                            "secureInput": false
+                        },
+                        "userProperties": [],
+                        "typeProperties": {
+                            "source": {
+                                "type": "DelimitedTextSource",
+                                "storeSettings": {
+                                    "type": "FileServerReadSetting",
+                                    "wildcardFileName": "*.*",
+                                    "recursive": true
+                                },
+                                "formatSettings": {
+                                    "type": "DelimitedTextReadSetting"
+                                }
+                            },
+                            "sink": {
+                                "type": "DelimitedTextSink",
+                                "storeSettings": {
+                                    "type": "AzureBlobStorageWriteSetting"
+                                },
+                                "formatSettings": {
+                                    "type": "DelimitedTextWriteSetting",
+                                    "quoteAllText": true,
+                                    "fileExtension": ".txt"
+                                }
+                            },
+                            "enableStaging": false
+                        },
+                        "inputs": [
+                            {
+                                "referenceName": "[variables('inputdatasetforfile')]",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "referenceName": "[variables('outputdatasetforfile')]",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            }
+                        ]
+                    }
+                ],
+                "annotations": []
+            },
+            "dependsOn": [
+                "[variables('inputdatasetforfile')]",
+                "[variables('outputdatasetforfile')]",
+                "[variables('inputlinkedservice')]",
+                "[variables('outputlinkedservice')]",
+                 "[parameters('dataFactoryName')]"
+                
+            ]
+        },
+        {
+            "name": "[variables('inputlinkedservice')]",
+            "type": "linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "FileServer",
+                "typeProperties": {
+                    "host": "\\\\mysqlvmlabel1.eastus.cloudapp.azure.com\\share",
+                    "userId": "[parameters('FileServer1_properties_typeProperties_userId')]",
+                    "password": {
+                        "type": "SecureString",
+                        "value": "[parameters('FileServer1_password')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[parameters('dataFactoryName')]"
+            ]
+        },
+        {
+            "name": "[variables('outputlinkedservice')]",
+            "type": "linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureBlobStorage",
+                "typeProperties": {
+                    "connectionString": "[parameters('azureStorageConnectionString')]"
+                }
+            },
+            "dependsOn": [
+                "[parameters('dataFactoryName')]"
+            ]
+        },
+        {
+            "name": "[variables('inputdatasetforfile')]",
+            "type": "datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "[variables('inputlinkedservice')]",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "DelimitedText",
+                "typeProperties": {
+                    "location": {
+                        "type": "FileServerLocation",
+                        "folderPath": "shab"
+                    },
+                    "columnDelimiter": ",",
+                    "escapeChar": "\\",
+                    "quoteChar": "\""
+                },
+                "schema": [
+                    {
+                        "name": "Prop_0",
+                        "type": "String"
+                    }
+                ]
+            },
+            "dependsOn": [
+                "[variables('inputlinkedservice')]",
+                "[parameters('dataFactoryName')]"
+            ]
+        },
+        {
+            "name": "[variables('outputdatasetforfile')]",
+            "type": "datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "[variables('outputlinkedservice')]",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "DelimitedText",
+                "typeProperties": {
+                    "location": {
+                        "type": "AzureBlobStorageLocation",
+                        "container": "logs"
+                    },
+                    "columnDelimiter": ",",
+                    "escapeChar": "\\",
+                    "quoteChar": "\""
+                },
+                "schema": []
+            },
+            "dependsOn": [
+                "[variables('outputlinkedservice')]",
+                "[parameters('dataFactoryName')]"
+            ]
+        }
+    ]
+}
+    ]
+}

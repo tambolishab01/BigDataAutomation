@@ -1,0 +1,147 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccountName": {
+            "type": "string",
+            "defaultValue": "shabsacnt"
+        },
+        "containerName": {
+            "type": "string",
+            "defaultValue": "logs",
+            "metadata": {
+                "description": "Specifies the name of the blob container."
+            }
+        },
+        "location": {
+            "type": "string",
+            "allowedValues": [
+                "East US 2",
+                "East US",
+                "Central US",
+                "North Europe",
+                "West Europe"
+            ],
+            "defaultValue": "East US",
+            "metadata": {
+                "description": "The location in which the resources will be created."
+            }
+        },
+        "dataFactoryName": {
+            "type": "string",
+            "defaultValue": "shabadf",
+            "metadata": {
+                "description": "Specifies the name of the blob container."
+        }
+        },
+        "dataFactoryLocation": {
+            "type": "string",
+            "defaultValue": "East US",
+			"allowedValues": [
+				"East US",
+				"East US 2",
+				"West Europe",
+				"Southeast Asia"
+			],
+			"metadata": {
+				"description": "Location of the data factory."
+			}
+		},
+		"onPremSqlServerConnectionString": {
+            "type": "string",
+            "defaultValue": "Server=mysqlvmlabel1.eastus.cloudapp.azure.com,1433;Database=testdb;Integrated Security=false;User ID=Azureadmin;Password=Welcome@12345",
+			"metadata": {
+				"description": "Connnection string for the on-premsies SQL Server database."
+			}
+		},
+		"sqlTableName": {
+            "type": "string",
+            "defaultValue": "dbo.emp",
+			"metadata": {
+				"description": "Name of the target table in the Azure SQL database."
+			}
+		},
+		"outputBlobFolder": {
+            "type": "string",
+            "defaultValue": "fromonpremsql",
+			"metadata": {
+				"description": "The folder in the blob container to which the data is copied."
+			}
+        },
+        "FileServer1_properties_typeProperties_userId": {
+            "type": "string",
+            "defaultValue": "Azureadmin"
+        },
+        "FileServer1_password": {
+            "type": "secureString",
+            "defaultValue": "Welcome@12345",
+            "metadata": "Secure string for 'password' of 'FileServer1'"
+        }
+       
+    },
+    
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "name": "blobstoragetemplate",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://sqlpiplinestorage.blob.core.windows.net/adfsqlcontainer/storageacnt.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[parameters('storageAccountName')]"
+                    },
+                    "containerName": {
+                        "value": "[parameters('containerName')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "adfTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://sqlpiplinestorage.blob.core.windows.net/adfsqlcontainer/createadf.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "dataFactoryName": {
+                        "value": "[parameters('dataFactoryName')]"
+                    },
+                    "dataFactoryLocation":{
+                        "value":"[parameters('dataFactoryLocation')]"
+                    },
+                    "containerName": {
+                        "value": "[parameters('containerName')]"
+                    },
+                    "azureStorageConnectionString": {
+                        "value": "[reference('blobstoragetemplate').outputs.astrrid.value]"
+                    },
+                    "onPremSqlServerConnectionString": {
+                         "value": "[parameters('onPremSqlServerConnectionString')]"
+
+                    },
+                    "sqlTableName": {
+                        "value": "[parameters('sqlTableName')]"
+                    },
+                    "outputBlobFolder": {
+                        "value":"[parameters('outputBlobFolder')]"
+                    },
+                    "FileServer1_properties_typeProperties_userId":{
+                        "value":"[parameters('FileServer1_properties_typeProperties_userId')]"
+                    },
+                    "FileServer1_password":{
+                        "value":"[parameters('FileServer1_password')]"
+                    }
+                }
+            }
+        }       
+    ]
+}
